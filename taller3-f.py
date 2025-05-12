@@ -1,9 +1,7 @@
 import numpy as np
 import cv2
 
-
-
-img = cv2.imread('/Users/Arcano/Downloads/img5.png') # Leemos la imagene
+img = cv2.imread("C:/Users/Arcano/OneDrive/Escritorio/fotosjose/joseformal.jpg") # Leemos la imagene
 height, width = img.shape[:2]  # Obtenemos sus dimensiones
 imgg = np.zeros((height, width), np.uint8)  # Creamos una imagen nueva
 cv2.cvtColor(img, cv2.COLOR_BGR2GRAY, imgg)

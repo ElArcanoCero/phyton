@@ -9,7 +9,7 @@ toma2  = None # creamos un cuadro a vacío.
 toma3  = None # creamos un cuadro a vacío.
 n = 0
 band = 0
-while (True):  
+while (True):
 	toma2 = toma1
 	#  leemos la camara
 	(grabbed, cuadro) = camara.read()
@@ -18,8 +18,7 @@ while (True):
 	imgv = cv2.cvtColor(cuadro, cv2.COLOR_BGR2GRAY)# Convertimos a escala de grises
 	imgvg = cv2.GaussianBlur(imgv, (91, 91), 0)# Aplicamos suavizado para eliminar ruido
 	#imgvgb = cv2.threshold(imgvg, 120, 255, cv2.THRESH_BINARY)[1] #binariso a imgvg
-	
-  
+
 	if toma1 is None:# llenamos el primer cuadro con la primera imagen tomada
 		toma1 = imgvg
 		#calculamos el histograma de ambas imagenes
@@ -45,7 +44,7 @@ while (True):
 		print("movimiento en el area", n)
 		print(corre)
 		print(corre1)
-     
+		
 	# Mostramos las imágenes de la cámara, el fondo y umbral binzarizado
 	cv2.imshow("imagen 1", imgvg)
 	cv2.imshow("imagen 2", toma1)

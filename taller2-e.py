@@ -1,9 +1,9 @@
 import numpy as np
 import cv2
 
-img1 = cv2.imread('/Users/Arcano/Desktop/img4.png', 0) # Leemos la imagene
-img2 = cv2.imread('/Users/Arcano/Desktop/img4.png', 0) # Leemos la imagene
-img3 = cv2.imread('/Users/Arcano/Desktop/img4.png', 0) # Leemos la imagene  
+img1 = cv2.imread("C:\Users\Arcano\OneDrive\Escritorio\fotosjose\joseformal.jpg", 0) # Leemos la imagene
+img2 = cv2.imread("C:\Users\Arcano\OneDrive\Escritorio\fotosjose\joseformal.jpg", 0) # Leemos la imagene
+img3 = cv2.imread("C:\Users\Arcano\OneDrive\Escritorio\fotosjose\joseformal.jpg", 0) # Leemos la imagene  
 
 fil, colmn = img1.shape[:2]  # Obtenemos sus dimensiones height alto width ancho
 
