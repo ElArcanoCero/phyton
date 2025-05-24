@@ -1,0 +1,55 @@
+import cv2
+import numpy as np
+from ultralytics import YOLO
+
+# Cargar modelo
+model = YOLO("yolov8n-seg.pt")
+
+# Leer imagen
+image = cv2.imread("C:/Users/Arcano/OneDrive/Escritorio/fotosjose/joseformal.jpg")
+results = model(image)[0]
+
+# Guardar máscaras, etiquetas y cajas
+masks = results.masks.data.cpu().numpy()
+classes = results.boxes.cls.cpu().numpy()
+names = results.names
+boxes = results.boxes.xyxy.cpu().numpy()
+
+# Imagen para mostrar
+display_img = image.copy()
+
+# --- Función para detectar si el clic fue dentro de una máscara ---
+def is_inside_mask(x, y, mask):
+    return mask[y, x] > 0
+
+# --- Callback de clic ---
+def on_mouse(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        for i, mask in enumerate(masks):
+            mask_bin = (mask * 255).astype(np.uint8)
+            if is_inside_mask(x, y, mask_bin):
+                print(f"Seleccionada prenda: {names[int(classes[i])]}")
+                
+                # Aplicar color solo a esa máscara
+                mask_3ch = cv2.merge([mask_bin]*3)
+                clothing = cv2.bitwise_and(image, mask_3ch)
+
+                hsv = cv2.cvtColor(clothing, cv2.COLOR_BGR2HSV)
+                h, s, v = cv2.split(hsv)
+                h[:] = (h - 60) % 180  # Cambiar tono
+                recolored = cv2.cvtColor(cv2.merge([h, s, v]), cv2.COLOR_HSV2BGR)
+
+                inverse_mask = cv2.bitwise_not(mask_bin)
+                background = cv2.bitwise_and(image, image, mask=inverse_mask)
+                result = cv2.add(background, recolored)
+
+                cv2.imshow("Color modificado", result)
+                break
+
+# Mostrar imagen y esperar clic
+cv2.namedWindow("Imagen")
+cv2.setMouseCallback("Imagen", on_mouse)
+cv2.imshow("Imagen", display_img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+

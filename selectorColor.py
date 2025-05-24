@@ -10,23 +10,26 @@ def select_color(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         img = param
         selected_color = img[y, x].tolist()
-        print(f"Color seleccionado: {selected_color} (R,G,B)")
+        print(f"Color seleccionado: {selected_color[2]} (R,G,B)")
+        cv2.namedWindow("Sliders")
+        # faltan filtros para overload tambien debes convertit selected_color a variables para uarlo  en la mascara 
+        # y en la creacion de los sliders
+        cv2.createTrackbar("R Min", "Sliders", selected_color[0]-20, 255, slider)
+        cv2.createTrackbar("R Max", "Sliders", selected_color[0]+20, 255, slider)
+        cv2.createTrackbar("G Min", "Sliders", selected_color[1]-20, 255, slider)
+        cv2.createTrackbar("G Max", "Sliders", selected_color[1]+20, 255, slider)
+        cv2.createTrackbar("B Min", "Sliders", selected_color[2]-20, 255, slider)
+        cv2.createTrackbar("B Max", "Sliders", selected_color[2]+20, 255, slider)
 
 # Función para nada, solo para crear sliders
-def nothing(x):
+def slider(x):
     pass
 
 # Cargar imagen para seleccionar color
 img_selector = cv2.imread("C:/Users/Arcano/OneDrive/Escritorio/fotosjose/joseformal.jpg")  # Imagen para seleccionar el color
 img_filter = cv2.imread("C:/Users/Arcano/OneDrive/Escritorio/fotosjose/joseformal.jpg")     # Imagen sobre la que aplicarás el filtro
 
-cv2.namedWindow("Sliders")
-cv2.createTrackbar("R Min", "Sliders", 0, 255, nothing)
-cv2.createTrackbar("R Max", "Sliders", 255, 255, nothing)
-cv2.createTrackbar("G Min", "Sliders", 0, 255, nothing)
-cv2.createTrackbar("G Max", "Sliders", 255, 255, nothing)
-cv2.createTrackbar("B Min", "Sliders", 0, 255, nothing)
-cv2.createTrackbar("B Max", "Sliders", 255, 255, nothing)
+
 
 cv2.imshow("Selecciona un color (clic izquierdo)", img_selector)
 cv2.setMouseCallback("Selecciona un color (clic izquierdo)", select_color, img_selector)
@@ -39,12 +42,12 @@ while True:
         break
     elif key == ord('q') and selected_color is not None:
         # Obtener valores de los sliders
-        r_min = cv2.getTrackbarPos("R Min", "Sliders")
-        r_max = cv2.getTrackbarPos("R Max", "Sliders")
-        g_min = cv2.getTrackbarPos("G Min", "Sliders")
-        g_max = cv2.getTrackbarPos("G Max", "Sliders")
-        b_min = cv2.getTrackbarPos("B Min", "Sliders")
-        b_max = cv2.getTrackbarPos("B Max", "Sliders")
+        r_min = selected_color[0]-20
+        r_max = selected_color[0]+20
+        g_min = selected_color[1]-20
+        g_max = selected_color[1]+20
+        b_min = selected_color[2]-20
+        b_max = selected_color[2]+20
 
         # Convertir imagen BGR a RGB para que coincida el orden
         img_rgb = cv2.cvtColor(img_filter, cv2.COLOR_BGR2RGB)
