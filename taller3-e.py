@@ -4,7 +4,7 @@ import time
 
 camara = cv2.VideoCapture(0) # Cargamos el vídeo
 
-ban = 0;
+ban = 0
 tam = 90
 
 while (True):  
@@ -77,3 +77,4 @@ while (True):
     
 camara.release()  # Liberamos la cámara 
 cv2.destroyAllWindows() #cerramos todas las ventanas
+
